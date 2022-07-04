@@ -22,7 +22,7 @@ DIR="$(dirname -- "${BASH_SOURCE[0]:-$0}")"
 set -e
 
 #setup the server that will replay incoming connections
-echo server up on 8003
-socat TCP-LISTEN:8003,fork,reuseaddr,keepalive EXEC:"$DIR/reply.sh"
+echo server up on 7771
+socat TCP-LISTEN:7771,fork,reuseaddr,keepalive EXEC:"$DIR/reply.sh"
 SERVER_PID=$!
 
