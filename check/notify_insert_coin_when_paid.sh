@@ -3,7 +3,8 @@
 DIR="$(dirname -- "${BASH_SOURCE[0]:-$0}")"
 LAST_RESPONSE=`mktemp /tmp/arcade_check-XXXXXX`
 
-ACTIVE_ORDERS=$(find $DIR/orders -maxdepth 1 -type f -name '*.active')
+#ACTIVE_ORDERS=$(find $DIR/orders -maxdepth 1 -type f -name '*.active')
+ACTIVE_ORDER=$@
 
 for order in $ACTIVE_ORDERS; do
 	ORDER_ID=$(basename $order | sed 's/.active$//' )

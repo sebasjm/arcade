@@ -6,10 +6,16 @@ USB-Taler interface
 
 **socat**: listen TCP connections, reply Websocket handshake, send reload command
 **jq**: parse json
+**qrencode**: optionally, generate and print qr codes for mobile integration
 
 ```
-apt install socat jq -y
+apt install socat jq qrencode -y
 ```
+
+## Generate QR codes
+
+qrencode -t asciii https://arcade.taler.ar/pay
+qrencode -t asciii https://arcade.taler.ar/pickup
 
 ## Usage
 
@@ -47,8 +53,10 @@ For every request, it will create an order to be paid and create a file in `dire
 
 Another process then can check the order status.
 
+### Check
+
 ```
-./pay/notify_insert_coin_when_paid.sh <directory>
+./check/notify_insert_coin_when_paid.sh <order_ids...>
 ```
 
 Will check of any order id and send an `insert coin` command if one is paid.

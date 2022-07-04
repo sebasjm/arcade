@@ -28,10 +28,10 @@ fi
 ORDER_ID=$(jq -r .order_id $LAST_RESPONSE)
 
 touch $DIR/orders/$ORDER_ID.active
-#Location: taler://pay/merchant-backend.taler.ar/$ORDER_ID/
+$Location: https://merchant-backend.taler.ar/orders/$ORDER_ID
 echo "
 $HTTP_FOUND
-Location: https://merchant-backend.taler.ar/orders/$ORDER_ID
+Location: taler://pay/merchant-backend.taler.ar/$ORDER_ID/
 
 "
 
