@@ -3,6 +3,8 @@
 DIR="$(dirname -- "${BASH_SOURCE[0]:-$0}")"
 HTTP_FOUND='HTTP/1.1 302 Found'
 HTTP_OK='HTTP/1.1 200 Ok'
+HTTP_ERROR='HTTP/1.1 500 Error'
+
 TOKEN=$(cat $DIR/TOKEN)
 LAST_RESPONSE=`mktemp /tmp/arcade_pay-XXXXXX`
 
@@ -13,6 +15,15 @@ STATUS=$(curl 'https://merchant-backend.taler.ar/instances/default/private/order
 	-w "%{http_code}"  \
 	-s  \
 	-o $LAST_RESPONSE)
+
+if [ $STATUS != "200" ]; then
+	echo "$HTTP_ERROR
+
+Something when wrong
+`cat $LAST_RESPONSE`
+"
+	exit 1
+fi
 
 ORDER_ID=$(jq -r .order_id $LAST_RESPONSE)
 

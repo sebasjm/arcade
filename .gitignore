@@ -1,4 +1,5 @@
 /pay/orders/.*
+/pay/orders/*.active
 /pay/TOKEN
 /pickup/RESERVE_ID
 /pickup/TOKEN

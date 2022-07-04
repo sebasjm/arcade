@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LOCK=/var/lock/arcade_watcher
+LOCK=/var/lock/arcade_pickup_watcher
 
 exec 4>$LOCK
 flock -xn 4

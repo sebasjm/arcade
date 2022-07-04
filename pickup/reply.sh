@@ -14,7 +14,16 @@ while read line; do
 done < /tmp/parsed_amount 2> /dev/null
 rm -f /tmp/parsed_amount
 
-set -x
+
+if [ $TOTAL = "0" ]; then
+	echo "$HTTP_OK
+
+There is no money to pickup.
+"
+	exit 0
+fi
+
+
 STATUS=$(curl "https://merchant-backend.taler.ar/instances/default/private/reserves/$RESERVE_ID/authorize-tip" \
 	-H 'Accept: application/json, text/plain, */*'  \
 	-H "Authorization: Bearer secret-token:$TOKEN"  \
@@ -25,8 +34,7 @@ STATUS=$(curl "https://merchant-backend.taler.ar/instances/default/private/reser
 
 TIP_URL=$(jq -r .tip_status_url $LAST_RESPONSE)
 
-echo "
-$HTTP_FOUND
+echo "$HTTP_FOUND
 Location: $TIP_URL
 "
 
