@@ -2,7 +2,7 @@
 
 DIR="$(dirname -- "${BASH_SOURCE[0]:-$0}")"
 HTTP_FOUND='HTTP/1.1 302 Found'
-HTTP_OK='HTTP/1.1 200 Ok'
+HTTP_OK='HTTP/1.1 200 OK'
 RESERVE_ID=$(cat $DIR/RESERVE_ID)
 TOKEN=$(cat $DIR/TOKEN)
 LAST_RESPONSE=`mktemp /tmp/arcade_response-XXXXXX`
