@@ -10,22 +10,35 @@ function denomination() {
 		 *) echo   0 ;;
 	esac	
 }
-LAST_WAS_DONE=0
+LAST_COMMAND=0
+CASH_IS_VALID=0
 
 #serial device
-#/dev/serial/by-id/usb-CCS_CCS_USB_to_UART-if00
+# /dev/serial/by-id/usb-CCS_CCS_USB_to_UART-if00
+#examples
+# when cash is not recognized
+# 78 14 79
+# when cash is valid
+# 78 79 02
+
 DEVICE=$1
 shift
-
-stdbuf -oL --\
+stdbuf -oL -- \
 	cat $DEVICE | \
 	stdbuf -i0 -oL -- \
 	xxd -g 0 -c 1 -ps | \
-	while read code; do 
-		if [ $LAST_WAS_DONE == 1 ]; then
-			VALUE=$( denomination $code )
-			echo inserted $VALUE
-			ssh mendoza github/arcade/insert.sh $VALUE
+	while read code; do	
+		if [ $LAST_COMMAND == $CMD_READING ] && [ $code == $CMD_DONE ]; then
+			CASH_IS_VALID=1
 		fi
-		LAST_WAS_DONE=$(( $code == $CMD_DONE ? 1 : 0 ))
+		if [ $LAST_COMMAND == $CMD_DONE ]; then
+			if [ $CASH_IS_VALID == 1 ]; then
+				VALUE=$( denomination $code )
+				echo inserted $VALUE
+				ssh mendoza github/arcade/insert.sh $VALUE < /dev/null
+			fi
+			CASH_IS_VALID=0
+		fi
+		LAST_COMMAND=$code
 	done
+
