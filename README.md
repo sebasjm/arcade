@@ -17,9 +17,8 @@ apt install socat jq qrencode -y
 qrencode -t asciii https://arcade.taler.ar/pay
 qrencode -t asciii https://arcade.taler.ar/pickup
 
-## Usage
 
-Use the pickup service to listen to wallet request and the cash service to listen for incoming cash.
+## Server Scripts
 
 ### Pickup
 
@@ -53,7 +52,11 @@ For every request, it will create an order to be paid and create a file in `dire
 
 Another process then can check the order status.
 
+## Local Scripts
+
 ### Check
+
+At the arcade machine. So it will run the game when it detects a payment.
 
 ```
 ./check/notify_insert_coin_when_paid.sh <order_ids...>
@@ -63,13 +66,15 @@ Will check of any order id and send an `insert coin` command if one is paid.
 
 ### Cash
 
-Connect the cash validator into the USB
+At the door with the cash validator.
+
+Connect the cash validator into the USB then.
 
 ```
-./cash/listen.sh <device> <output>
+./cash/listen_validator.sh <device>
 ```
 
  * **device**: the usb device where it will listen
- * **output**: file that will accumulate the incoming cash values
 
+It will send the signal to the pickup server
 

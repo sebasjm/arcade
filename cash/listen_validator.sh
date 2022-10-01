@@ -20,8 +20,12 @@ CASH_IS_VALID=0
 # 78 14 79
 # when cash is valid
 # 78 79 02
-
 DEVICE=$1
+
+if [ $DEVICE == "" ];then
+  echo missing device
+fi
+
 shift
 stdbuf -oL -- \
 	cat $DEVICE | \
